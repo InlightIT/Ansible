@@ -1,0 +1,57 @@
+---
+# file: updatereboot.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+#  serial:
+#   - 1
+#   - 5%
+#   - 25%
+#  max_fail_percentage: 25%
+  vars:
+    win_updates_categories:
+      - Critical Updates
+      - Security Updates
+      - Update Rollups
+      - Definition Updates
+  tasks:
+  # Check if there are missing updates
+  - name: Check for missing updates.
+    win_updates:
+      state: searched
+      category_names: "{{ win_updates_categories }}"
+    register: update_count
+    ignore_errors: yes
+
+  - name: Reboot if needed
+    win_shell: Restart-Computer -Force
+    when: update_count.reboot_required
+    ignore_errors: yes
+
+  - name: Install missing updates.
+    win_updates:
+      category_names: "{{ win_updates_categories }}"
+    register: update_result
+
+  - name: Reboot if needed
+    win_shell: Restart-Computer -Force
+    when: update_result.reboot_required
+    ignore_errors: yes
