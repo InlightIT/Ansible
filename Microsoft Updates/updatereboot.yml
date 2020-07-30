@@ -21,11 +21,8 @@
   any_errors_fatal: false
   gather_facts: false
   ignore_errors: yes
-#  serial:
-#   - 1
-#   - 5%
-#   - 25%
-#  max_fail_percentage: 25%
+  serial: "50%"
+  max_fail_percentage: 25%
   vars:
     win_updates_categories:
       - Critical Updates
