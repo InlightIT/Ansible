@@ -1,0 +1,4 @@
+---
+# file: winping.yml
+- hosts: all
+  win_ping:
