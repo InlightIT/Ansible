@@ -1,4 +1,4 @@
 ---
 # file: winping.yml
-- hosts: all
+- name: Ping stuff
   win_ping:
