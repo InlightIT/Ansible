@@ -38,5 +38,8 @@
   - name: Start CB sensor installation
     win_package:
       path: 'C:\temp\installer_vista_win7_win8-64.msi'
+      creates_path: 'C:\Program Files\Confer\RepMgr.exe'
       state: present
-    when: msi_file.stat.exists == True and repmgr_file.stat.exists == False
+    when: 
+      - msi_file.stat.exists == True 
+      - repmgr_file.stat.exists == False
