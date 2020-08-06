@@ -42,4 +42,4 @@
       state: present
     when: 
       - msi_file.stat.exists == True 
-      - repmgr_file.stat.exists == False
+#      - repmgr_file.stat.exists == False
