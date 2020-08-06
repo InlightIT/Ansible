@@ -32,9 +32,9 @@
     win_stat:
       path: 'C:\temp\installer_vista_win7_win8-64.msi'
     register: msi_file
-    win_stat:
-      path: 'C:\Program Files\Confer\RepMgr.exe'
-    register: repmgr_file
+#    win_stat:
+#      path: 'C:\Program Files\Confer\RepMgr.exe'
+#    register: repmgr_file
   - name: Start CB sensor installation
     win_package:
       path: 'C:\temp\installer_vista_win7_win8-64.msi'
