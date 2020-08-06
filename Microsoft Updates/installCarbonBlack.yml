@@ -38,6 +38,8 @@
   - name: Start CB sensor installation
     win_package:
       path: 'C:\temp\installer_vista_win7_win8-64.msi'
+      arguments:
+        - COMPANY_CODE=Q6WFLH9CWP5@31SUPKA
       creates_path: 'C:\Program Files\Confer\RepMgr.exe'
       state: present
     when: 
