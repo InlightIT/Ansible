@@ -28,20 +28,20 @@
   max_fail_percentage: 25%
   tasks:
   #Check if files are there
-  - name: Check if installation files are there
-    win_stat:
-      path: 'C:\temp\installer_vista_win7_win8-64.msi'
-    register: msi_file
+#  - name: Check if installation files are there
+#    win_stat:
+#      path: 'C:\temp\installer_vista_win7_win8-64.msi'
+#    register: msi_file
 #    win_stat:
 #      path: 'C:\Program Files\Confer\RepMgr.exe'
 #    register: repmgr_file
   - name: Start CB sensor installation
     win_package:
-      path: 'C:\temp\installer_vista_win7_win8-64.msi'
+      path: 'http://vlidcutil01.vlg.local/repo/installer_vista_win7_win8-64-3.5.0.1756.msi'
       arguments:
         - COMPANY_CODE=Q6WFLH9CWP5@31SUPKA
       creates_path: 'C:\Program Files\Confer\RepMgr.exe'
       state: present
-    when: 
-      - msi_file.stat.exists == True 
+#    when: 
+#      - msi_file.stat.exists == True 
 #      - repmgr_file.stat.exists == False
