@@ -16,7 +16,7 @@
             key: "running_hosts"
       rescue:
         - debug: msg="cannot connect to host"
-        
+
 - hosts: running_hosts
   strategy: free
   any_errors_fatal: false
@@ -30,4 +30,4 @@
   tasks:
   - name: Start CB sensor installation
     win_package:
-      path: 'http://vlidcutil01.vlg.local/repo/installer_vista_win7_win8-64-3.5.0.1756.msi'
+      path: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
