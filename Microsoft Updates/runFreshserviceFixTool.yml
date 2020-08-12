@@ -28,6 +28,5 @@
    - 25%
   max_fail_percentage: 25%
   tasks:
-  - name: Start CB sensor installation
-    win_psexec:
-      command: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
+  - name: Run FSScanConfig.exe
+    raw: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
