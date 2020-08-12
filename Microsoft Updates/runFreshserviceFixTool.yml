@@ -41,3 +41,7 @@
     when: exe_file.stat.exists == false
   - name: Run FSScanConfig.exe
     raw: 'C:\temp\FSScanConfig.exe'
+  - name: Remove the file after no longer necessary
+    win_file:
+      path: 'C:\temp\FSScanConfig.exe'
+      state: absent
