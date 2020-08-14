@@ -21,10 +21,18 @@
   any_errors_fatal: false
   gather_facts: false
   ignore_errors: yes
-  serial: "50%"
+  serial:
+   - 1
+   - 5%
+   - 25%
   max_fail_percentage: 25%
   vars:
     win_updates_categories:
+      - Critical Updates
+      - Security Updates
+    win_upgrades_categories:
+      - Update Rollups
+      - Definition Updates
       - Upgrades
   tasks:
   # Check if there are missing updates
@@ -42,7 +50,7 @@
 
   - name: Install missing updates.
     win_updates:
-      category_names: "{{ win_updates_categories }}"
+      category_names: "{{ win_upgrades_categories }}"
     register: update_result
 
   - name: Reboot if needed
