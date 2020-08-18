@@ -16,7 +16,6 @@
             key: "running_hosts"
       rescue:
         - debug: msg="cannot connect to host"
-
 - hosts: running_hosts
   strategy: free
   any_errors_fatal: false
