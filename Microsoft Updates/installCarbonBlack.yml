@@ -41,6 +41,7 @@
       arguments:
         - COMPANY_CODE=Q6WFLH9CWP5@31SUPKA
       creates_path: 'C:\Program Files\Confer\RepMgr.exe'
+      creates_version: 3.5.0.1786
       state: present
 #    when: 
 #      - msi_file.stat.exists == True 
