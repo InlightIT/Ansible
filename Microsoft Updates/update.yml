@@ -40,6 +40,8 @@
       category_names: "{{ win_updates_categories }}"
     register: update_count
     ignore_errors: yes
+    raw: 'C:\Windows\system32\wuauclt.exe /detectnow'
+    raw: 'C:\Windows\system32\wuauclt.exe /reportnow'
 
 #  - name: Reboot if needed
 #    win_shell: Restart-Computer -Force
@@ -50,6 +52,8 @@
     win_updates:
       category_names: "{{ win_updates_categories }}"
     register: update_result
+    raw: 'C:\Windows\system32\wuauclt.exe /detectnow'
+    raw: 'C:\Windows\system32\wuauclt.exe /reportnow'
 
 #  - name: Reboot if needed
 #    win_shell: Restart-Computer -Force
