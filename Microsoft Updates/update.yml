@@ -40,9 +40,6 @@
       category_names: "{{ win_updates_categories }}"
     register: update_count
     ignore_errors: yes
-    raw:
-      wuauclt.exe /detectnow
-      wuauclt.exe /reportnow'
 
 #  - name: Reboot if needed
 #    win_shell: Restart-Computer -Force
