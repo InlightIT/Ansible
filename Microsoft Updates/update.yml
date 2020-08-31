@@ -35,6 +35,7 @@
   tasks:
   # Check if there are missing updates
   - name: Check for missing updates.
+    raw: 'wuauclt /detectnow;wuauclt /reportnow'
     win_updates:
       state: searched
       category_names: "{{ win_updates_categories }}"
