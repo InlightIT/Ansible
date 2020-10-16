@@ -1,0 +1,86 @@
+---
+# file: removeBeAnywhere.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+  vars:
+    win_updates_categories:
+      - CriticalUpdates
+      - SecurityUpdates
+      - UpdateRollups
+  tasks:
+  # Stop service 1 of 2
+  - name: Stop BeAnywhere service updater
+    win_service:
+      name: BASupportExpressSrvcUpdater_N_Central
+      state: stopped
+      start_mode: disabled
+    ignore_errors: yes
+  # Stop service 2 of 2
+  - name: Stop BeAnywhere service agent
+    win_service:
+      name: BASupportExpressStandaloneService_N_Central
+      state: stopped
+      start_mode: disabled
+      state: absent
+    ignore_errors: yes
+  # Stop service 3 of 3
+  - name: Stop BASupportExpressStandaloneService service
+    win_service:
+      name: BASupportExpressStandaloneService
+      state: absent
+    ignore_errors: yes
+  # Kill all BeAnywhere background processess
+  - name: Kill BA background tasks
+    win_shell: 'try {Stop-Process -Force -InputObject (Get-Process | Where-Object {$_.ProcessName -like "BASup*"})} catch {Write-Warning -Message "The process is already dead"}'
+    ignore_errors: yes
+  # Delete BeAnywhere folder from 'Program Files (x86)'
+  - name: Delete x86 BeAnywhere files
+    win_file:
+      path: 'C:\Program Files (x86)\BeAnywhere Support Express'
+      state: absent
+    ignore_errors: yes
+  # Delete BeAnywhere folder from 'Program Files'
+  - name: Delete BeAnywhere files
+    win_file:
+      path: 'C:\Program Files\BeAnywhere Support Express'
+      state: absent
+    ignore_errors: yes
+  # Delete N-able folder from 'Program Files'
+  - name: Delete N-able files
+    win_file:
+      path: 'C:\Program Files\N-able Technologies'
+      state: absent
+    ignore_errors: yes
+  # Delete N-able folder from 'Program Files (x86)'
+  - name: Delete N-able files
+    win_file:
+      path: 'C:\Program Files (x86)\N-able Technologies'
+      state: absent
+    ignore_errors: yes
+
+
+
