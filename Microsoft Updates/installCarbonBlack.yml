@@ -40,6 +40,7 @@
       path: 'http://vlidcutil01.vlg.local/repo/installer_vista_win7_win8-64-3.6.0.1897.msi'
       arguments:
         - COMPANY_CODE=Q6WFLH9CWP5@31SUPKA
+        - CLI_USERS=S-1-5-21-303673547-1299351009-1902384710-512
       creates_path: 'C:\Program Files\Confer\RepMgr.exe'
       creates_version: 3.6.0.1897
       state: present
