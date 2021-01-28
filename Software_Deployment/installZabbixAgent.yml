@@ -40,7 +40,7 @@
 
   - name: Check if installation files are there
     win_stat:
-      path: 'C:\Zabbix\bin\zabbix_agent2.exe'
+      path: 'C:\Zabbix\zabbix_agent2.exe'
     register: stat_file
   - name: Create Zabbix agent service
     win_service:
