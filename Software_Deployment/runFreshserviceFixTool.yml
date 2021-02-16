@@ -35,7 +35,8 @@
     register: exe_file
   - name: Download FSScanConfig.exe
     win_get_url: 
-      url: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
+#      url: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
+      url: 'http://oyautiv01.oya.internal/repo/FSScanConfig.exe'
       dest: 'C:\temp\FSScanConfig.exe'
     when: exe_file.stat.exists == false
   - name: Run FSScanConfig.exe
