@@ -1,0 +1,47 @@
+---
+# file: runFreshserviceFixTool.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+
+  
+  tasks:
+  - name: Check if the executable is already there
+    win_stat:
+      path: 'C:\temp\FSScanConfig.exe'
+    register: exe_file
+  - name: Download FSScanConfig.exe
+    win_get_url: 
+      url: 'http://vlidcutil01.vlg.local/repo/FSScanConfig.exe'
+#      url: 'http://oyautiv01.oya.internal/repo/FSScanConfig.exe'
+      dest: 'C:\temp\FSScanConfig.exe'
+    when: exe_file.stat.exists == false
+  - name: Run FSScanConfig.exe
+    raw: 'C:\temp\FSScanConfig.exe'
+  - name: Remove the file after no longer necessary
+    win_file:
+      path: 'C:\temp\FSScanConfig.exe'
+      state: absent
