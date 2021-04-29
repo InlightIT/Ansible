@@ -33,7 +33,7 @@
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       creates_version: 6.2.3.0
       state: present
-      log_path: c:\temp\AnyDesk\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+      log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Create an application shortcut on the desktop
     community.windows.win_shortcut:
       src: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
