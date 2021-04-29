@@ -36,12 +36,11 @@
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Download Icon File
     win_get_url: 
-      url: 'http://vlidcutil01.vlg.local/repo/InlightIT-small-logo.png'
-#      url: 'http://oyautiv01.oya.internal/repo/FSScanConfig.exe'
-      dest: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.png'
+      url: 'http://vlidcutil01.vlg.local/repo/InlightIT-small-logo.ico'
+      dest: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
 
   - name: Create an application shortcut on the desktop
     community.windows.win_shortcut:
       src: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       dest: C:\Users\Public\Desktop\My IT Support.lnk
-      icon: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.png'
+      icon: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
