@@ -29,7 +29,7 @@
   tasks:
   - name: Start AnyDesk Client installation
     win_package:
-      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_OYA.msi'
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI.msi'
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       creates_version: 6.2.3.0
       state: present
