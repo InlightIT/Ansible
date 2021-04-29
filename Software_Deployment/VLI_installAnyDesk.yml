@@ -1,0 +1,39 @@
+---
+# file: installCarbonBlack.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+  tasks:
+  - name: Start CB sensor installation
+    win_package:
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI.msi'
+      arguments:
+        - COMPANY_CODE=Q6WFLH9CWP5@31SUPKA
+        - CLI_USERS=S-1-5-21-303673547-1299351009-1902384710-512
+      creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
+      creates_version: 6.2.3.0
+      state: present
+      log_path: c:\temp\AnyDesk\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
