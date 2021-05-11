@@ -27,9 +27,15 @@
    - 25%
   max_fail_percentage: 25%
   tasks:
-  - name: Start AnyDesk Client installation
+  - name: Remove Old AnyDesk
     win_package:
       path: 'http://oyautiv01.oya.internal/repo/Inlight_IT_Support_OYA.msi'
+      product_id: '{75E08D97-60C3-402B-A586-21E5CA047B2E}'
+      state: absent
+      log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+  - name: Start AnyDesk Client installation
+    win_package:
+      path: 'http://oyautiv01.oya.internal/repo/Inlight_IT_Support_OYA_2021.05.11.msi'
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       creates_version: 6.2.3.0
       state: present
