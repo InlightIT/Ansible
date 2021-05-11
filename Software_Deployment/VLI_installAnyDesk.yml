@@ -27,9 +27,14 @@
    - 25%
   max_fail_percentage: 25%
   tasks:
-  - name: Start AnyDesk Client installation
+  - name: Remove Old AnyDesk
     win_package:
       path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI.msi'
+      state: absent
+      log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+  - name: Start AnyDesk Client installation
+    win_package:
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.05.11.msi'
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       creates_version: 6.2.3.0
       state: present
