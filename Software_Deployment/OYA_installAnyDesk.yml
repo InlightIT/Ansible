@@ -45,7 +45,7 @@
       url: 'http://oyautiv01.oya.internal/repo/InlightIT-small-logo.ico'
       dest: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
 
-  - name: Create an application shortcut on the desktop
+  - name: Create application shortcut on the desktop
     community.windows.win_shortcut:
       src: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       dest: C:\Users\Public\Desktop\My IT Support.lnk
