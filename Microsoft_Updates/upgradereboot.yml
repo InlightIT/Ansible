@@ -37,6 +37,7 @@
   tasks:
   # Check if there are missing updates
   - name: Check for missing updates.
+    serial: 4
     win_updates:
       state: searched
       category_names: "{{ win_updates_categories }}"
@@ -44,16 +45,19 @@
     ignore_errors: yes
 
   - name: Reboot if needed
+    serial: 4
     win_shell: Restart-Computer -Force
     when: update_count.reboot_required
     ignore_errors: yes
 
   - name: Install missing updates.
+    serial: 4
     win_updates:
       category_names: "{{ win_upgrades_categories }}"
     register: update_result
 
   - name: Reboot if needed
+    serial: 4
     win_shell: Restart-Computer -Force
     when: update_result.reboot_required
     ignore_errors: yes
