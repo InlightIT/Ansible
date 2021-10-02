@@ -29,15 +29,15 @@
   tasks:
   - name: Remove Old AnyDesk
     win_package:
-      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI.msi'
-      product_id: '{2238F115-EECD-4DD9-A849-80B4FCE8C33C}'
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.05.11.msi'
+      product_id: '{24708ABA-EF4A-41EF-AB87-9553A145C62F}'
       state: absent
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Start AnyDesk Client installation
     win_package:
-      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.05.11.msi'
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.10.01.msi'
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
-      creates_version: 6.2.3.0
+      creates_version: 6.3.3.0
       state: present
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Download Icon File
