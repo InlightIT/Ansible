@@ -1,0 +1,55 @@
+---
+# file: VLI_InstallZabbixAgent.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+  tasks:
+  #Check if files are there
+  - name: Check if installation files are there
+    win_stat:
+      path: 'C:\Zabbix\bin\zabbix_agentd.exe'
+    register: stat_file
+  #Creates 'Zabbix agent' service
+  - name: Create Zabbix agent service
+    win_service:
+      name: Zabbix agent
+      path: 'C:\Zabbix\bin\zabbix_agentd.exe --config C:\Zabbix\conf\zabbix_agentd.conf'
+      display_name: Zabbix agent
+      description: Starts Zabbix monitoring agent
+      state: started
+      start_mode: delayed
+    when: stat_file.stat.exists == True
+  #Creates 'Zabbix agent' firewall rule
+  - name: Firewall rule to allow Zabbix port 10050
+    win_firewall_rule:
+      name: Zabbix agent
+      program: C:\Zabbix\bin\zabbix_agentd.exe
+      action: allow
+      direction: in
+      protocol: tcp
+      profiles: domain
+      state: present
+      enabled: yes
