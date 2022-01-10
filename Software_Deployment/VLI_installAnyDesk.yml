@@ -36,7 +36,7 @@
   - name: Remove Another Old AnyDesk
     win_package:
       path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.10.01.msi'
-      product_id: '{24708ABA-EF4A-41EF-AB87-9553A145C62F}'
+      product_id: '{7A1A1967-6C85-43AC-AC3B-94FE0ED99D91}'
       state: absent
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Start AnyDesk Client installation
