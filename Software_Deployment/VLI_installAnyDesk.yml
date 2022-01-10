@@ -41,7 +41,7 @@
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
   - name: Start AnyDesk Client installation
     win_package:
-      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.10.01.msi'
+      path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2022.01.10.msi'
       creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
       creates_version: 7.0.4.0
       state: present
