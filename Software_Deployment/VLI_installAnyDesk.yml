@@ -47,12 +47,6 @@
       #GUID {EB36B2A9-CAFF-4952-AED6-77FB19EB3252}
       state: present
       log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
-  - name: Create GUID file
-    copy:
-      dest: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\GUID.txt'
-      content:
-        Version 7.0.4.0
-        GUID {EB36B2A9-CAFF-4952-AED6-77FB19EB3252}
   - name: Download Icon File
     win_get_url: 
       url: 'http://vlidcutil01.vlg.local/repo/InlightIT-small-logo.ico'
