@@ -32,6 +32,7 @@
       - Security Updates
       - Update Rollups
       - Definition Updates
+      - Drivers
   tasks:
   # Check if there are missing updates
   - name: Check for missing updates.
