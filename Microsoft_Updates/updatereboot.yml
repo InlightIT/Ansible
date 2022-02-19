@@ -17,6 +17,7 @@
       rescue:
         - debug: msg="cannot connect to host"
 - hosts: running_hosts
+  ignore_unreachable: yes
   strategy: free
   any_errors_fatal: false
   gather_facts: false
