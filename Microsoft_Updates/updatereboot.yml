@@ -29,6 +29,7 @@
   max_fail_percentage: 25%
   vars:
     win_updates_categories:
+      - Updates
       - Critical Updates
       - Security Updates
       - Update Rollups
