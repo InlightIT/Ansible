@@ -30,6 +30,7 @@
   vars:
     win_updates_categories:
       - Updates
+      - Upgrades
       - Critical Updates
       - Security Updates
       - Update Rollups
