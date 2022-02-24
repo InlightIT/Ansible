@@ -44,8 +44,16 @@
 #  - name: Download agent config file
 #    raw: 'wget http://oyautiv01.oya.internal/repo/Zabbix/conf/zabbix_agent2.conf -OutFile C:\Zabbix\zabbix_agent2.conf -UseBasicParsing'
 
+  - name: Remove Zabbix agent service
+    win_service:
+      name: Zabbix Agent
+#      path: 'C:\Zabbix\zabbix_agent2.exe -c C:\Zabbix\zabbix_agent2.conf'
+#      display_name: Zabbix agent
+#      description: Starts Zabbix monitoring agent
+      state: absent
+#    when: stat_file.stat.exists == True
   - name: Create Zabbix agent service
-    raw: 'C:\Zabbix\bin\zabbix_agentd.exe --config C:\Zabbix\config\zabbix_agentd.conf --install'
+    raw: 'C:\Zabbix\bin\zabbix_agentd.exe --config C:\Zabbix\conf\zabbix_agentd.conf --install'
     when: stat_file.stat.exists == True
   - name: Create firewall rule to allow Zabbix port 10050
     win_firewall_rule:
@@ -59,7 +67,7 @@
       enabled: yes
   - name: Start Zabbix agent service
     win_service:
-      name: Zabbix Agent Daemon
+      name: Zabbix Agent
 #      path: 'C:\Zabbix\zabbix_agent2.exe -c C:\Zabbix\zabbix_agent2.conf'
 #      display_name: Zabbix agent
 #      description: Starts Zabbix monitoring agent
