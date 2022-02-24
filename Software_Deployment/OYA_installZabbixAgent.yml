@@ -1,0 +1,69 @@
+---
+# file: installZabbixAgent.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+
+
+  tasks:
+  - name: Check if installation files are there
+    win_stat:
+      path: 'C:\Zabbix\bin\zabbix_agentd.exe'
+    register: stat_file
+#  - name: Create Zabbix directory
+#    win_file:
+#      path: 'C:\Zabbix'
+#      state: directory
+#  - name: Downlowd agent executable
+#    raw: 'wget http://oyautiv01.oya.internal/repo/Zabbix/bin/zabbix_agent2.exe -OutFile C:\Zabbix\zabbix_agent2.exe -UseBasicParsing'
+#    when: stat_file.stat.exists == False
+    
+#  - name: Download agent config file
+#    raw: 'wget http://oyautiv01.oya.internal/repo/Zabbix/conf/zabbix_agent2.conf -OutFile C:\Zabbix\zabbix_agent2.conf -UseBasicParsing'
+
+  - name: Create Zabbix agent service
+    raw: 'C:\Zabbix\bin\zabbix_agentd.exe --config C:\Zabbix\config\zabbix_agentd.conf --install'
+    when: stat_file.stat.exists == True
+  - name: Create firewall rule to allow Zabbix port 10050
+    win_firewall_rule:
+      name: Zabbix agent
+      program: C:\Zabbix\zabbix_agent2.exe
+      action: allow
+      direction: in
+      protocol: tcp
+      profiles: domain
+      state: present
+      enabled: yes
+  - name: Start Zabbix agent service
+    win_service:
+      name: Zabbix Agent Daemon
+#      path: 'C:\Zabbix\zabbix_agent2.exe -c C:\Zabbix\zabbix_agent2.conf'
+#      display_name: Zabbix agent
+#      description: Starts Zabbix monitoring agent
+      state: restarted
+      start_mode: delayed
+#      state: absent
+#    when: stat_file.stat.exists == True
