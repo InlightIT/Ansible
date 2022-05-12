@@ -22,5 +22,6 @@
   any_errors_fatal: false
   gather_facts: false
   ignore_errors: yes
-- name: Start Upgrading
-  raw: 'C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade /copylogs C:\_Windows_FU\packages'
+  tasks:
+  - name: Start Upgrading
+    raw: 'C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade /copylogs C:\_Windows_FU\packages'
