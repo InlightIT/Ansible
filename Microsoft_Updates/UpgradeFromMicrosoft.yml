@@ -24,4 +24,4 @@
   ignore_errors: yes
   tasks:
   - name: Start Upgrading
-    raw: 'C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade /copylogs C:\_Windows_FU\packages'
+    win_shell: 'C:\temp\get-upgrades.ps1'
