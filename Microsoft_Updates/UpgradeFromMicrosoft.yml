@@ -42,7 +42,7 @@
       post_reboot_delay: 90
       test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
   - name: Start Upgrading
-    win_shell: 'C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade'
+    win_shell: Start-Process -FilePath C:\_Windows_FU\packages\Win10Upgrade.exe -ArgumentList '/quietinstall /skipeula /auto upgrade'
   - name: Wait for poweroff
     local_action:
       module: shell
