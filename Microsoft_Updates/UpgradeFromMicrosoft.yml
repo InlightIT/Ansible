@@ -46,9 +46,9 @@
   - name: Wait for poweroff
     local_action:
       module: shell
-      cmd: "ping -c 1 10.0.0.10"
+      cmd: "ping -c 1 {{ ansible_default_ipv4.address }}"
     register: myping
-    failed_when: (myping.rc != 0) and ('100% loss' not in myping.stdout)
+    failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
     retries: 500
     delay: 10
     until: myping.rc == 1
