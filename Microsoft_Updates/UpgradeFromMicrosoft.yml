@@ -43,15 +43,15 @@
       test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
   - name: Start Upgrading
     win_shell: Start-Process -FilePath C:\_Windows_FU\packages\Win10Upgrade.exe -ArgumentList '/quietinstall /skipeula /auto upgrade'
-  - name: Wait for poweroff
-    local_action:
-      module: shell
-      cmd: "ping -c 1 {{ ansible_default_ipv4.address }}"
-    register: myping
-    failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
-    retries: 500
-    delay: 10
-    until: myping.rc == 1
+#  - name: Wait for poweroff
+#    local_action:
+#      module: shell
+#      cmd: "ping -c 1 {{ ansible_default_ipv4.address }}"
+#    register: myping
+#    failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
+#    retries: 500
+#    delay: 10
+#    until: myping.rc == 1
   - name: Wait 20 minutes, but only start checking after 2 minutes
     wait_for_connection:
       delay: 120
