@@ -33,11 +33,11 @@
       dest: C:\_Windows_FU\packages\Win10Upgrade.exe
   - name: Save version info before upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
-  - debug: msg="{{ ansible_facts['ansible_default_ipv4'] }}"
+  - debug: msg="{{ ansible_facts['ip_addresses [1]'] }}"
   - name: Wait for poweroff
     local_action:
       module: shell
-      cmd: "ping -c 1 {{ ansible_facts['ansible_default_ipv4'] }}"
+      cmd: "ping -c 1 {{ ansible_facts['ip_addresses [1]'] }}"
     register: myping
     failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
     retries: 500
