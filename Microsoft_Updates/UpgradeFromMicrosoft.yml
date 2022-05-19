@@ -28,7 +28,7 @@
       path: C:\_Windows_FU\packages
       state: directory
   - name: Download executable
-    get_utl:
+    get_url:
       url: https://go.microsoft.com/fwlink/?LinkID=799445
       dest: C:\_Windows_FU\packages\Win10Upgrade.exe
   - name: Save version info before upgrading
