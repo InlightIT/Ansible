@@ -33,7 +33,7 @@
       dest: C:\_Windows_FU\packages\Win10Upgrade.exe
   - name: Save version info before upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
-  - debug: msg="{{ ansible_facts['nodename'] }}"
+  - debug: msg="{{ ansible_facts['all_ipv4_addresses [1]'] }}"
   - name: Wait for poweroff
     local_action:
       module: shell
