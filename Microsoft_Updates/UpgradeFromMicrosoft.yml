@@ -33,11 +33,14 @@
       dest: C:\_Windows_FU\packages\Win10Upgrade.exe
   - name: Save version info before upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
-  - debug: msg="{{ ansible_facts['ip_addresses[0]'] }}"
+  - name: Create Self Public IP Variable
+    raw: 'Resolve-DnsName -Name {{ hostvars[inventory_hostname].ansible_fqdn }} -Type A -DnsOnly | select -expand IPAddress'
+    register: windows_public_ip
+  - debug: msg="{{ windows_public_ip.stdout_lines | join }}"
   - name: Wait for poweroff
     local_action:
       module: shell
-      cmd: "ping -c 1 {{ ansible_facts['ip_addresses[0]'] }}"
+      cmd: "ping -c 1 {{ windows_public_ip.stdout_lines | join }}"
     register: myping
     failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
     retries: 500
