@@ -65,7 +65,7 @@
   - name: Wait for poweroff
     local_action:
       module: shell
-      cmd: "ping -c 1 {{ ansible_all_ipv4_addresses [1] }}"
+      cmd: "ping -c 1 {{ windows_public_ip.stdout_lines | join }}"
     register: myping
     failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
     retries: 500
