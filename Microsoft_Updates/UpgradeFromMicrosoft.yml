@@ -57,6 +57,7 @@
       delay: 120
       timeout: 1200
   - name: Wait 1 minute
-    sleep: 60
+    pause:
+      minutes: 1
   - name: Save version info after upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
