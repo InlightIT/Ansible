@@ -58,6 +58,7 @@
     win_psexec: 
       command: C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
       elevated: yes
+      interactive: yes
       executable: C:\_Windows_FU\packages\pstools\psexec.exe
   - name: Wait for poweroff
     local_action:
