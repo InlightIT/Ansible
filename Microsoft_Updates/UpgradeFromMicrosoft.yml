@@ -47,8 +47,7 @@
       "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Start Upgrading
     win_shell: |
-      cd C:\_Windows_FU\packages\
-      C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
+      cmd /c 'C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade'
   - name: Wait for poweroff
     local_action:
       module: shell
