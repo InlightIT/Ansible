@@ -43,7 +43,7 @@
       dest:
         \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Save version info before upgrading
-    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt -Append
+    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name DisplayVersion -ErrorAction Stop | Select-Object DisplayVersion | Out-File -FilePath \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt -Append
   - name: Wait 1 minute
     pause:
       minutes: 1
@@ -77,4 +77,4 @@
     pause:
       minutes: 5
   - name: Save version info after upgrading
-    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
+    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name DisplayVersion -ErrorAction Stop | Select-Object DisplayVersion | Out-File -FilePath \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt -Append
