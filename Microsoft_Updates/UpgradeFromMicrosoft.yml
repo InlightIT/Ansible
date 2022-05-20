@@ -56,11 +56,9 @@
       "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Start Upgrading
     win_psexec: 
-      command: Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
+      command: C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
       elevated: yes
       executable: C:\_Windows_FU\packages\pstools\psexec.exe
-    args:
-      chdir: C:\_Windows_FU\packages
   - name: Wait for poweroff
     local_action:
       module: shell
