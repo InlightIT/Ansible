@@ -66,7 +66,8 @@
       minutes: 5
   - name: Save version info after upgrading
     win_shell: |
-      "`nBuild number after:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt  - name: Wait 1 minute
+      "`nBuild number after:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
+  - name: Wait 1 minute
     pause:
       minutes: 1
   - name: Reboot host and wait for it to restart
