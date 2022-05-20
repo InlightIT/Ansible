@@ -56,7 +56,7 @@
       "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Notify users 5 minutes before restart
     raw: Msg /server:{{ hostvars[inventory_hostname].ansible_fqdn }}/ * Message "PC restart in 5min. Please save your work. You will be logged off in 5 minutes."
-  - name: Reboot host and wait for it to restart
+  - name: Wait for 5 minutes and reboot host
     win_reboot:
       msg: "Reboot initiated by Ansible"
       connect_timeout: 5
@@ -64,9 +64,6 @@
       pre_reboot_delay: 300
       post_reboot_delay: 120
       test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
-#  - name: Wait 5 minutes
-#    pause:
-#      minutes: 5
   - name: Start Upgrading
     win_psexec: 
       command: C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
