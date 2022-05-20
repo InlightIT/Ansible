@@ -44,7 +44,8 @@
         \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Save version info before upgrading
     win_shell: |
-      'Build number before: '+(Get-CimInstance Win32_OperatingSystem).BuildNumber  >> \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt  - name: Wait 1 minute
+      'Build number before: '+(Get-CimInstance Win32_OperatingSystem).BuildNumber  >> \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
+  - name: Wait 1 minute
     pause:
       minutes: 1
   - name: Reboot host and wait for it to restart
