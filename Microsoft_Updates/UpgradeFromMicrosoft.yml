@@ -41,9 +41,9 @@
         "{{ hostvars[inventory_hostname].ansible_fqdn }}
         {{ windows_public_ip.stdout_lines | join }}"
       dest:
-        C:\temp\WindowsUpgrade.txt
+        C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Save version info before upgrading
-    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
+    win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt -Append
   - name: Wait 1 minute
     pause:
       minutes: 1
