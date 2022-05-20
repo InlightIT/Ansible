@@ -38,11 +38,15 @@
   - name: Put some details into log file
     win_copy:
       content:
-        "{{ hostvars[inventory_hostname].ansible_fqdn }}"
+        "{{ hostvars[inventory_hostname].ansible_fqdn }}
+        {{ windows_public_ip.stdout_lines | join }}"
       dest:
         C:\temp\WindowsUpgrade.txt
   - name: Save version info before upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
+  - name: Wait 1 minute
+    pause:
+      minutes: 1
   - name: Reboot host and wait for it to restart
     win_reboot:
       msg: "Reboot initiated by Ansible"
@@ -51,7 +55,7 @@
       pre_reboot_delay: 0
       post_reboot_delay: 90
       test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
-  - name: Wait 5 minute
+  - name: Wait 5 minutes
     pause:
       minutes: 5
   - name: Start Upgrading
@@ -69,8 +73,8 @@
     wait_for_connection:
       delay: 120
       timeout: 7200
-  - name: Wait 1 minute
+  - name: Wait 5 minutes
     pause:
-      minutes: 1
+      minutes: 5
   - name: Save version info after upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
