@@ -60,7 +60,9 @@
     pause:
       minutes: 5
   - name: Start Upgrading
-    win_shell: Start-Process -FilePath "C:\_Windows_FU\packages\Win10Upgrade.exe" -ArgumentList "/quietinstall /skipeula /auto upgrade"
+    win_shell: |
+      cd C:\_Windows_FU\packages\
+      C:\_Windows_FU\packages\Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
   - name: Wait for poweroff
     local_action:
       module: shell
