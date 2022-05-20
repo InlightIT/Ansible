@@ -41,24 +41,10 @@
         "{{ hostvars[inventory_hostname].ansible_fqdn }}
         {{ windows_public_ip.stdout_lines | join }}"
       dest:
-        \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
+        C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Save version info before upgrading
     win_shell: |
-      "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber  >> \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
-  - name: Wait 1 minute
-    pause:
-      minutes: 1
-  - name: Reboot host and wait for it to restart
-    win_reboot:
-      msg: "Reboot initiated by Ansible"
-      connect_timeout: 5
-      reboot_timeout: 600
-      pre_reboot_delay: 0
-      post_reboot_delay: 90
-      test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
-  - name: Wait 5 minutes
-    pause:
-      minutes: 5
+      "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Start Upgrading
     win_shell: |
       cd C:\_Windows_FU\packages\
@@ -81,4 +67,17 @@
       minutes: 5
   - name: Save version info after upgrading
     win_shell: |
-      "`nBuild number after:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber  >> \\test-win10.vlg.local\ANS\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
+      "`nBuild number after:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt  - name: Wait 1 minute
+    pause:
+      minutes: 1
+  - name: Reboot host and wait for it to restart
+    win_reboot:
+      msg: "Reboot initiated by Ansible"
+      connect_timeout: 5
+      reboot_timeout: 600
+      pre_reboot_delay: 0
+      post_reboot_delay: 90
+      test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
+  - name: Wait 5 minutes
+    pause:
+      minutes: 5
