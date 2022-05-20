@@ -23,6 +23,10 @@
   ignore_errors: yes
   ignore_unreachable: yes
   tasks:
+  - name: Create Self Public IP Variable
+    raw: 'Resolve-DnsName -Name {{ hostvars[inventory_hostname].ansible_fqdn }} -Type A -DnsOnly | select -expand IPAddress'
+    register: windows_public_ip
+  - debug: msg="{{ windows_public_ip.stdout_lines | join }}"
   - name: Create folders
     win_file:
       path: C:\_Windows_FU\packages
@@ -31,24 +35,14 @@
     win_get_url:
       url: https://go.microsoft.com/fwlink/?LinkID=799445
       dest: C:\_Windows_FU\packages\Win10Upgrade.exe
+  - name: Put some details into log file
+    win_copy:
+      content:
+        "{{ hostvars[inventory_hostname].ansible_fqdn }}"
+      dest:
+        C:\temp\WindowsUpgrade.txt
   - name: Save version info before upgrading
     win_shell: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name ReleaseID -ErrorAction Stop | Out-File -FilePath C:\temp\WindowsUpgrade.txt -Append
-  - name: Create Self Public IP Variable
-    raw: 'Resolve-DnsName -Name {{ hostvars[inventory_hostname].ansible_fqdn }} -Type A -DnsOnly | select -expand IPAddress'
-    register: windows_public_ip
-  - debug: msg="{{ windows_public_ip.stdout_lines | join }}"
-  - name: Wait for poweroff
-    local_action:
-      module: shell
-      cmd: "ping -c 1 {{ windows_public_ip.stdout_lines | join }}"
-    register: myping
-    failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
-    retries: 500
-    delay: 10
-    until: myping.rc == 1
-  - name: Wait 5 minute
-    pause:
-      minutes: 5
   - name: Reboot host and wait for it to restart
     win_reboot:
       msg: "Reboot initiated by Ansible"
@@ -61,20 +55,20 @@
     pause:
       minutes: 5
   - name: Start Upgrading
-    win_shell: Start-Process -FilePath C:\_Windows_FU\packages\Win10Upgrade.exe -ArgumentList '/quietinstall /skipeula /auto upgrade'
+    win_shell: Start-Process -FilePath "C:\_Windows_FU\packages\Win10Upgrade.exe" -ArgumentList "/quietinstall /skipeula /auto upgrade"
   - name: Wait for poweroff
     local_action:
       module: shell
       cmd: "ping -c 1 {{ windows_public_ip.stdout_lines | join }}"
     register: myping
     failed_when: (myping.rc != 0) and ('100% packet loss' not in myping.stdout)
-    retries: 500
+    retries: 720
     delay: 10
     until: myping.rc == 1
-  - name: Wait 20 minutes, but only start checking after 2 minutes
+  - name: Wait 2 hours, but only start checking after 2 minutes
     wait_for_connection:
       delay: 120
-      timeout: 1200
+      timeout: 7200
   - name: Wait 1 minute
     pause:
       minutes: 1
