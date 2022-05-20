@@ -31,6 +31,15 @@
     win_file:
       path: C:\_Windows_FU\packages
       state: directory
+  - name: download psexec
+    win_get_url:
+      url: https://download.sysinternals.com/files/PSTools.zip
+      dest: C:\_Windows_FU\packages\PSTools.zip
+  - name: unzip psexec
+    win_unzip:
+      src: C:\_Windows_FU\packages\PSTools.zip
+      dest: C:\_Windows_FU\packages\pstools
+      delete_archive: yes
   - name: Download executable
     win_get_url:
       url: https://go.microsoft.com/fwlink/?LinkID=799445
@@ -46,7 +55,10 @@
     win_shell: |
       "`nBuild number before:`n" +(Get-CimInstance Win32_OperatingSystem).BuildNumber >> C:\temp\WindowsUpgrade_{{ hostvars[inventory_hostname].ansible_fqdn }}.txt
   - name: Start Upgrading
-    win_command: Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
+    win_psexec: 
+      command: Win10Upgrade.exe /quietinstall /skipeula /auto upgrade
+      elevated: yes
+      executable: C:\_Windows_FU\packages\pstools\psexec.exe
     args:
       chdir: C:\_Windows_FU\packages
   - name: Wait for poweroff
