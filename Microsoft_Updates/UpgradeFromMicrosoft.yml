@@ -60,7 +60,7 @@
     win_reboot:
       msg: "Reboot initiated by Ansible"
       connect_timeout: 5
-      reboot_timeout: 600
+      reboot_timeout: 3600
       pre_reboot_delay: 300
       post_reboot_delay: 120
       test_command: 'exit (Get-Service -Name Netlogon).Status -ne "Running"'
