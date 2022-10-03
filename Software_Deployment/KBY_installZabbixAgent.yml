@@ -51,7 +51,7 @@
       state: absent
 #    when: stat_file.stat.exists == True
   - name: Create Zabbix agent service
-    raw: 'C:\Zabbix\bin\zabbix_agentd.exe --config C:\Zabbix\conf\zabbix_agentd.conf --install'
+    raw: 'C:\Zabbix\zabbix_agentd.exe --config C:\Zabbix\zabbix_agentd.conf --install'
     when: stat_file.stat.exists == True
   - name: Create firewall rule to allow Zabbix port 10050
     win_firewall_rule:
