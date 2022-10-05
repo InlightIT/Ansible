@@ -66,7 +66,7 @@
   - name: Create firewall rule to allow Zabbix port 10050
     win_firewall_rule:
       name: Zabbix agent
-      program: C:\Zabbix\zabbix_agent2.exe
+      program: C:\Zabbix\zabbix_agentd.exe
       action: allow
       direction: in
       protocol: tcp
