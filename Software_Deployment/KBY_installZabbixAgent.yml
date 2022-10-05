@@ -38,15 +38,17 @@
      path: 'C:\Zabbix'
      state: directory
   - name: Downlowd agent executable
-    get_url:
+    win_get_url:
       url: http://10.15.4.36/zabbix/bin/zabbix_agentd.exe
       dest: c:\Zabbix\zabbix_agentd.exe
+      force: True
 #    raw: 'wget http://10.15.4.36/zabbix/bin/zabbix_agentd.exe -OutFile c:\Zabbix\zabbix_agentd.exe -UseBasicParsing'
     when: stat_file.stat.exists == False
   - name: Download agent config file
-    get_url:
+    win_get_url:
       url: http://10.15.4.36/zabbix/conf/zabbix_agentd.conf
       dest: c:\Zabbix\zabbix_agentd.conf
+      force: True
 #    raw: 'wget http://10.15.4.36/zabbix/conf/zabbix_agentd.conf -OutFile c:\Zabbix\zabbix_agentd.conf -UseBasicParsing'
   - name: Remove Zabbix agent service
     win_service:
