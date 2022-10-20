@@ -43,6 +43,7 @@
   - name: Check for missing updates.
     win_updates:
       state: searched
+      server_selection: windows_update
       category_names: "{{ win_updates_categories }}"
     register: update_count
     ignore_errors: yes
@@ -54,6 +55,7 @@
 
   - name: Install missing updates.
     win_updates:
+      server_selection: windows_update
       category_names: "{{ win_updates_categories }}"
     register: update_result
 
