@@ -43,12 +43,12 @@
       state: searched
       server_selection: windows_update
       category_names: "{{ win_updates_categories }}"
-    register: reboot_required
+    register: installed
     ignore_errors: yes
 
   - name: Reboot if needed
     win_shell: Restart-Computer -Force
-    when: reboot_required
+    when: installed.reboot_required
     ignore_errors: yes
 
   - name: Install missing updates.
