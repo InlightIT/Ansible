@@ -56,8 +56,13 @@
   #     src: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
   #     dest: C:\Users\Public\Desktop\My IT Support.lnk
   #     icon: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
-  - name: Start AnyDesk service and set it to Auto
+  - name: Stop and Disable AnyDesk service 1
     win_service:
       name: AnyDesk-0ca66cc1
+      state: stopped
+      start_mode: disabled
+  - name: Stop and Disable AnyDesk service 1
+    win_service:
+      name: AnyDesk-0ca66cc1_msi
       state: stopped
       start_mode: disabled
