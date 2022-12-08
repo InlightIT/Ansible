@@ -1,0 +1,63 @@
+---
+# file: installCarbonBlack.yml
+- hosts: all
+  strategy: free
+  connection: local
+  gather_facts: false
+  tasks:
+    - block:
+        - name: determine hosts that are up
+          wait_for_connection:
+            timeout: 5
+          vars:
+            ansible_connection: winrm
+        - name: add devices with connectivity to the "running_hosts" group
+          group_by:
+            key: "running_hosts"
+      rescue:
+        - debug: msg="cannot connect to host"
+- hosts: running_hosts
+  strategy: free
+  any_errors_fatal: false
+  gather_facts: false
+  ignore_errors: yes
+  serial:
+   - 1
+   - 5%
+   - 25%
+  max_fail_percentage: 25%
+  tasks:
+  - name: Remove Old AnyDesk
+    win_package:
+      path: 'http://vlidcutil01.vlg.local/repo/AnyDesk_VLI_Endpoint.msi'
+      product_id: '{21D6A49B-597B-4AEA-A5D7-C37FAF886018}'
+      state: absent
+      log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+  # - name: Remove Another Old AnyDesk
+  #   win_package:
+  #     path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2021.10.01.msi'
+  #     product_id: '{7A1A1967-6C85-43AC-AC3B-94FE0ED99D91}'
+  #     state: absent
+  #     log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+  # - name: Start AnyDesk Client installation
+  #   win_package:
+  #     path: 'http://vlidcutil01.vlg.local/repo/Inlight_IT_Support_VLI_2022.01.10.msi'
+  #     creates_path: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
+  #     creates_version: 7.0.4.0
+  #     #GUID {EB36B2A9-CAFF-4952-AED6-77FB19EB3252}
+  #     state: present
+  #     log_path: c:\temp\AD_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+  # - name: Download Icon File
+  #   win_get_url: 
+  #     url: 'http://vlidcutil01.vlg.local/repo/InlightIT-small-logo.ico'
+  #     dest: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
+  # - name: Create application shortcut on the desktop
+  #   community.windows.win_shortcut:
+  #     src: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\AnyDesk-5754769e_msi.exe'
+  #     dest: C:\Users\Public\Desktop\My IT Support.lnk
+  #     icon: 'C:\Program Files (x86)\AnyDesk-5754769e_msi\InlightIT-small-logo.ico'
+  # - name: Start AnyDesk service and set it to Auto
+  #   win_service:
+  #     name: AnyDesk-5754769e_msi
+  #     state: started
+  #     start_mode: Auto
