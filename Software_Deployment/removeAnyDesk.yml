@@ -59,10 +59,8 @@
   - name: Stop and Disable AnyDesk service 1
     win_service:
       name: AnyDesk-0ca66cc1
-      state: stopped
-      start_mode: disabled
+      state: absent
   - name: Stop and Disable AnyDesk service 1
     win_service:
       name: AnyDesk-0ca66cc1_msi
-      state: stopped
-      start_mode: disabled
+      state: absent
