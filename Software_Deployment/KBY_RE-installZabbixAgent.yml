@@ -29,10 +29,15 @@
 
 
   tasks:
+  - name: Check if Zabbix Agent service is installed
+    win_service:
+      name: Zabbix Agent
+    register: result
   - name: Stop Zabbix agent service
     win_service:
       name: Zabbix Agent
       state: stopped
+    when: result.exists == True
   - name: Check if installation files are there
     win_stat:
       path: 'C:\Zabbix\zabbix_agentd.exe'
