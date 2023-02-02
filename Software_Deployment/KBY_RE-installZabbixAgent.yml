@@ -41,7 +41,7 @@
     win_file:
      path: 'C:\Zabbix'
      state: directory
-  - name: Downlowd agent executable
+  - name: Download agent executable
     win_get_url:
       url: http://10.15.4.36/zabbix/bin/zabbix_agentd.exe
       dest: c:\Zabbix\zabbix_agentd.exe
