@@ -37,3 +37,4 @@
       creates_version: 3.6.0.2076
       state: present
       log_path: c:\temp\CB_install_{{lookup('pipe', 'date +%Y%m%d')}}.log
+      
