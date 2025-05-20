@@ -1,0 +1,48 @@
+all:
+  hosts:
+    VLISDCSRV12.VLG.local:
+      ansible_host: VLISDCSRV12.VLG.local
+    VLIDCFS01.VLG.local:
+      ansible_host: VLIDCFS01.VLG.local
+    VLIDCEXCH01.VLG.local:
+      ansible_host: VLIDCEXCH01.VLG.local
+    VLIDCSQL01.VLG.local:
+      ansible_host: VLIDCSQL01.VLG.local
+    VLIDCGTW01.VLG.local:
+      ansible_host: VLIDCGTW01.VLG.local
+    VLIDCSAP03.VLG.local:
+      ansible_host: VLIDCSAP03.VLG.local
+    VLIDCSAP04.VLG.local:
+      ansible_host: VLIDCSAP04.VLG.local
+    VLIDCSP01.VLG.local:
+      ansible_host: VLIDCSP01.VLG.local
+    VLIDCAPP02.VLG.local:
+      ansible_host: VLIDCAPP02.VLG.local
+    VLIDCSAP02.VLG.local:
+      ansible_host: VLIDCSAP02.VLG.local
+    VLISDCSRV09.VLG.local:
+      ansible_host: VLISDCSRV09.VLG.local
+    VLIDCSAP01.VLG.local:
+      ansible_host: VLIDCSAP01.VLG.local
+    VLISDCSRV01.VLG.local:
+      ansible_host: VLISDCSRV01.VLG.local
+    VLIDCAPP01.VLG.local:
+      ansible_host: VLIDCAPP01.VLG.local
+    VLIDCSOLMAN.VLG.local:
+      ansible_host: VLIDCSOLMAN.VLG.local
+    VLIDCUTIL01.VLG.local:
+      ansible_host: VLIDCUTIL01.VLG.local
+    vlidcans01.vlg.local:
+      ansible_host: vlidcans01.vlg.local
+    lray.VLG.local:
+      ansible_host: lray.VLG.local
+    VLIDCRAD01.VLG.local:
+      ansible_host: VLIDCRAD01.VLG.local
+    VLIDCAPP03.VLG.local:
+      ansible_host: VLIDCAPP03.VLG.local
+    VLIDCSAP10.VLG.local:
+      ansible_host: VLIDCSAP10.VLG.local
+    VLIDCSAP11.VLG.local:
+      ansible_host: VLIDCSAP11.VLG.local
+    VLIDCSAP12.VLG.local:
+      ansible_host: VLIDCSAP12.VLG.local
